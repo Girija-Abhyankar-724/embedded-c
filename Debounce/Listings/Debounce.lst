@@ -1,0 +1,66 @@
+C51 COMPILER V9.60.7.0   DEBOUNCE                                                          06/24/2026 14:45:20 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE DEBOUNCE
+OBJECT MODULE PLACED IN .\Objects\Debounce.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Debounce.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -Debounce.lst) TABS(2) OBJECT(.\Objects\Debounce.obj)
+
+line level    source
+
+   1          #include <at89c5131.h>
+   2          #include <lcd.h>
+   3          
+   4          // Button declaration
+   5          sbit button = P0^7;
+   6          // Add LCD pin definitions and function declarations here
+   7          
+   8          
+   9          void main()
+  10          {
+  11   1      // Initialize LCD
+  12   1        unsigned int count=0;
+  13   1        button =1;
+  14   1        lcd_init();
+  15   1        
+  16   1      lcd_cmd(0x80);
+  17   1      lcd_write_string("Debounce Counter");
+  18   1       lcd_cmd(0xC0);
+  19   1          lcd_write_char((count/10)+'0');
+  20   1      lcd_write_char((count%10)+'0');
+  21   1      
+  22   1        while(1){
+  23   2      
+  24   2      
+  25   2      
+  26   2      if(button ==0){
+  27   3      msdelay(20);
+  28   3      if(button==0){
+  29   4      count++;
+  30   4        lcd_cmd(0xC0);
+  31   4                      lcd_write_char((count/10)+'0');
+  32   4      lcd_write_char((count%10)+'0');
+  33   4      while(button==0);
+  34   4      } 
+  35   3      }
+  36   2      
+  37   2      }
+  38   1      // Increment counter on valid press
+  39   1      // Display counter value on LCD
+  40   1      }
+  41          
+  42          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    264    ----
+   CONSTANT SIZE    =     17    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,253 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    06/24/2026  14:11:23  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\music.obj TO .\Objects\song PRINT (.\Listings\song.m51) RAM
+>> SIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\music.obj (MUSIC)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CLDPTR)
+
+
+LINK MAP OF MODULE:  .\Objects\song (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         _DATA_GROUP_
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     007EH     UNIT         ?PR?MAIN?MUSIC
+            CODE    087EH     003BH     UNIT         ?CO?MUSIC
+            CODE    08B9H     0037H     UNIT         ?PR?LCD_INIT?MUSIC
+            CODE    08F0H     0025H     UNIT         ?PR?_LCD_WRITE_STRING?MUSIC
+            CODE    0915H     0024H     UNIT         ?PR?_MSDELAY?MUSIC
+            CODE    0939H     0024H     UNIT         ?PR?_LCD_CMD?MUSIC
+            CODE    095DH     0019H     UNIT         ?C?LIB_CODE
+            CODE    0976H     0012H     UNIT         ?PR?_LCD_WRITE_CHAR?MUSIC
+            CODE    0988H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\song (?C_STARTUP)
+
+
+SEGMENT                               DATA_GROUP 
+  +--> CALLED SEGMENT               START    LENGTH
+---------------------------------------------------
+?C_C51STARTUP                       -----    -----
+  +--> ?PR?MAIN?MUSIC
+
+?PR?MAIN?MUSIC                      -----    -----
+  +--> ?PR?LCD_INIT?MUSIC
+  +--> ?PR?_LCD_CMD?MUSIC
+  +--> ?CO?MUSIC
+  +--> ?PR?_LCD_WRITE_STRING?MUSIC
+  +--> ?PR?_MSDELAY?MUSIC
+
+?PR?LCD_INIT?MUSIC                  -----    -----
+  +--> ?PR?_LCD_CMD?MUSIC
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/24/2026  14:11:23  PAGE 2
+
+
+  +--> ?PR?_MSDELAY?MUSIC
+
+?PR?_LCD_CMD?MUSIC                  -----    -----
+  +--> ?PR?_MSDELAY?MUSIC
+
+?PR?_LCD_WRITE_STRING?MUSIC         0008H    0003H
+  +--> ?PR?_LCD_WRITE_CHAR?MUSIC
+
+?PR?_LCD_WRITE_CHAR?MUSIC           -----    -----
+  +--> ?PR?_MSDELAY?MUSIC
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\song (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0988H         SEGMENT       ?C_C51STARTUP
+  I:000BH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:098BH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0988H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0988H         LINE#         133
+  C:098AH         LINE#         134
+  C:098BH         LINE#         135
+  C:098CH         LINE#         136
+  C:098EH         LINE#         185
+  C:0991H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MUSIC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  B:0080H.2       PUBLIC        EN
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/24/2026  14:11:23  PAGE 3
+
+
+  B:0080H.0       PUBLIC        RS
+  C:0800H         PUBLIC        main
+  B:0080H.1       PUBLIC        RW
+  C:08F0H         PUBLIC        _lcd_write_string
+  C:0976H         PUBLIC        _lcd_write_char
+  C:094BH         PUBLIC        _lcd_cmd
+  C:08B9H         PUBLIC        lcd_init
+  C:0919H         PUBLIC        _msdelay
+  -------         PROC          LCD_INIT
+  C:08B9H         LINE#         23
+  C:08B9H         LINE#         24
+  C:08B9H         LINE#         25
+  C:08BCH         LINE#         26
+  C:08BEH         LINE#         27
+  C:08C0H         LINE#         28
+  C:08C2H         LINE#         30
+  C:08C8H         LINE#         31
+  C:08CBH         LINE#         32
+  C:08D2H         LINE#         33
+  C:08D5H         LINE#         34
+  C:08DCH         LINE#         35
+  C:08DFH         LINE#         36
+  C:08E6H         LINE#         37
+  C:08E9H         LINE#         38
+  -------         ENDPROC       LCD_INIT
+  C:0915H         SYMBOL        L?0023
+  -------         PROC          L?0022
+  -------         ENDPROC       L?0022
+  C:0915H         SYMBOL        L?0023
+  -------         PROC          _MSDELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0919H         LINE#         45
+  C:0919H         LINE#         46
+  C:0919H         LINE#         48
+  C:0923H         LINE#         49
+  C:0923H         LINE#         50
+  C:0931H         LINE#         51
+  C:0938H         LINE#         52
+  -------         ENDPROC       _MSDELAY
+  C:0947H         SYMBOL        L?0021
+  -------         PROC          L?0020
+  -------         ENDPROC       L?0020
+  C:0947H         SYMBOL        L?0021
+  -------         PROC          _LCD_CMD
+  D:0006H         SYMBOL        i
+  C:094BH         LINE#         59
+  C:094BH         LINE#         60
+  C:094BH         LINE#         61
+  C:094DH         LINE#         62
+  C:094FH         LINE#         63
+  C:0951H         LINE#         64
+  C:0953H         LINE#         65
+  C:095AH         LINE#         66
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/24/2026  14:11:23  PAGE 4
+
+
+  C:095CH         LINE#         67
+  -------         ENDPROC       _LCD_CMD
+  -------         PROC          _LCD_WRITE_CHAR
+  D:0007H         SYMBOL        ch
+  C:0976H         LINE#         74
+  C:0976H         LINE#         75
+  C:0976H         LINE#         76
+  C:0978H         LINE#         77
+  C:097AH         LINE#         78
+  C:097CH         LINE#         79
+  C:097EH         LINE#         80
+  C:0985H         LINE#         81
+  C:0987H         LINE#         82
+  -------         ENDPROC       _LCD_WRITE_CHAR
+  -------         PROC          _LCD_WRITE_STRING
+  D:0008H         SYMBOL        s
+  C:08F0H         LINE#         89
+  C:08F6H         LINE#         90
+  C:08F6H         LINE#         91
+  C:0901H         LINE#         92
+  C:0901H         LINE#         93
+  C:0912H         LINE#         94
+  C:0914H         LINE#         95
+  -------         ENDPROC       _LCD_WRITE_STRING
+  -------         PROC          MAIN
+  C:0800H         LINE#         4
+  C:0800H         LINE#         5
+  C:0800H         LINE#         6
+  C:0803H         LINE#         8
+  C:0803H         LINE#         9
+  C:0803H         LINE#         11
+  C:0806H         LINE#         12
+  C:080FH         LINE#         13
+  C:080FH         LINE#         14
+  C:080FH         LINE#         16
+  C:0812H         LINE#         17
+  C:081BH         LINE#         18
+  C:081BH         LINE#         20
+  C:081BH         LINE#         21
+  C:081EH         LINE#         22
+  C:0827H         LINE#         23
+  C:082EH         LINE#         25
+  C:0831H         LINE#         26
+  C:083AH         LINE#         27
+  C:0841H         LINE#         29
+  C:0848H         LINE#         30
+  C:0851H         LINE#         31
+  C:0858H         LINE#         33
+  C:085DH         LINE#         34
+  C:0866H         LINE#         36
+  C:086DH         LINE#         37
+  C:0874H         LINE#         38
+  C:087BH         LINE#         39
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MUSIC
+
+  -------         MODULE        ?C?CLDPTR
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/24/2026  14:11:23  PAGE 5
+
+
+  C:095DH         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 017EH BYTE (18%) *
+******************************************************************************
+
+Program Size: data=12.0 xdata=0 code=407
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
