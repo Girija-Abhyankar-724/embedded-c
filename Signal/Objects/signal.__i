@@ -1,0 +1,1 @@
+"signal.c" OPTIMIZE (8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\signal.lst) TABS (2) OBJECT(.\Objects\signal.obj)

@@ -1,0 +1,93 @@
+C51 COMPILER V9.60.7.0   FOUR_LED                                                          06/26/2026 09:05:30 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE FOUR_LED
+OBJECT MODULE PLACED IN .\Objects\four_led.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE four_led.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -four_led.lst) TABS(2) OBJECT(.\Objects\four_led.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          
+   3          unsigned char sample[4];   
+   4          unsigned char encoded[4];   
+   5          
+   6          void msdelay(unsigned int time) {
+   7   1          unsigned int i, j;
+   8   1          for (i = 0; i < time; i++)
+   9   1              for (j = 0; j < 382; j++);
+  10   1      }
+  11          
+  12          void take_inp() {
+  13   1          unsigned char i;
+  14   1          unsigned char high_nibble, low_nibble;
+  15   1          unsigned char led_count = 1;
+  16   1      
+  17   1          P1 = 0x0F;
+  18   1      
+  19   1          for (i = 0; i < 4; i++) {
+  20   2              
+  21   2              P1 = (unsigned char)((led_count << 4) | 0x0F);
+  22   2              msdelay(8000);
+  23   2              high_nibble = (P1 & 0x0F) << 4;
+  24   2              led_count++;  
+  25   2      
+  26   2              
+  27   2              P1 = (unsigned char)((led_count << 4) | 0x0F);
+  28   2              msdelay(8000);
+  29   2              low_nibble = P1 & 0x0F;
+  30   2              led_count++;
+  31   2      
+  32   2              sample[i] = high_nibble | low_nibble;
+  33   2          }
+  34   1      
+  35   1          P1 = 0x0F;
+  36   1      }
+  37          
+  38          void quant_enc() {
+  39   1          unsigned char i;
+  40   1          for (i = 0; i < 4; i++) {
+  41   2              if (sample[i] < 64)
+  42   2                  encoded[i] = 0x01;
+  43   2              else if (sample[i] < 128)
+  44   2                  encoded[i] = 0x02;
+  45   2              else if (sample[i] < 192)
+  46   2                  encoded[i] = 0x04;
+  47   2              else
+  48   2                  encoded[i] = 0x08;
+  49   2          }
+  50   1      }
+  51          
+  52          void led_disp() {
+  53   1          unsigned char i;
+  54   1          while (1) {
+C51 COMPILER V9.60.7.0   FOUR_LED                                                          06/26/2026 09:05:30 PAGE 2   
+
+  55   2              for (i = 0; i < 4; i++) {
+  56   3                  P1 = (unsigned char)((encoded[i] << 4) | 0x0F);
+  57   3                  msdelay(4000);
+  58   3              }
+  59   2              P1 = 0x0F;
+  60   2          }
+  61   1      }
+  62          
+  63          void main() {
+  64   1          take_inp();
+  65   1          quant_enc();
+  66   1          led_disp();
+  67   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    206    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

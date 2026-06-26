@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\signal.obj" 
+TO ".\Objects\signal_own" 
+PRINT(".\Listings\signal_own.m51") RAMSIZE(256) 
