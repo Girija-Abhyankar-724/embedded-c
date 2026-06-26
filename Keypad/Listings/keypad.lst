@@ -1,0 +1,211 @@
+C51 COMPILER V9.60.7.0   KEYPAD                                                            06/25/2026 10:53:30 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE KEYPAD
+OBJECT MODULE PLACED IN .\Objects\keypad.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE keypad.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\ke
+                    -ypad.lst) TABS(2) OBJECT(.\Objects\keypad.obj)
+
+line level    source
+
+   1          #include <at89c5131.h>
+   2          #include <stdio.h>
+   3          #include <lcd.h>
+   4          
+   5          
+   6          
+   7          //P3 Lower nibbles are connected to columns of the keyboard
+   8          sbit col_1 = P3^0;
+   9          sbit col_2 = P3^1;
+  10          sbit col_3 = P3^2;
+  11          sbit col_4 = P3^3;
+  12          
+  13          //P3 Higher nibbles are connected to rows of the keyboard
+  14          sbit row_1 = P3^4;
+  15          sbit row_2 = P3^5;
+  16          sbit row_3 = P3^6;
+  17          sbit row_4 = P3^7;
+  18          
+  19          char col_1_state,col_2_state,col_3_state,col_4_state;
+  20          unsigned char iterator;
+  21          //void msdelay(unsigned int time); //use this function for delay in milliseconds
+  22          //void lcd_init(); //use it to initialize lcd
+  23          //void write_data(unsigned char _data); //writing character or data to lcd the data will get displayed on 
+             -the lcd
+  24          //void write_command(unsigned char comm);//sending commands to lcd
+  25          
+  26          void main()
+  27          {
+  28   1        RS = RW = EN = 0;
+  29   1        /****************************************/
+  30   1        //set all columns high
+  31   1        col_1_state = 1;
+  32   1        col_2_state = 1;
+  33   1        col_3_state = 1;
+  34   1        col_4_state = 1;
+  35   1        /****************************************/
+  36   1        
+  37   1        /****************************************/
+  38   1        //implement the function to initialize lcd here
+  39   1        lcd_init();
+  40   1        
+  41   1        /****************************************/
+  42   1        
+  43   1        P3 = 0x0F;
+  44   1        while (1)
+  45   1        {
+  46   2        
+  47   2          if (P3 < 0x0F) //checking whether some key is pressed or not
+  48   2            {
+  49   3              //Add an delay of 200 ms for debouncing the keys
+  50   3              msdelay(200);
+  51   3              
+  52   3              
+  53   3              if ( P3 < 0x0F) //checking whether still some key is pressed or not after debounce
+C51 COMPILER V9.60.7.0   KEYPAD                                                            06/25/2026 10:53:30 PAGE 2   
+
+  54   3              {
+  55   4                P3 =  0xE0| 0x0F; //fill in an hex number such that row 1 becomes zero and rest of the rows are still
+             - high
+  56   4                
+  57   4                
+  58   4                 if (col_1==0) //check whether col_1 is zero or not
+  59   4                 {
+  60   5                   //call a function to write character 1 to the lcd display
+  61   5                   lcd_write_char('1');
+  62   5                   continue;
+  63   5                 }
+  64   4                 else if (col_2 == 0)
+  65   4                 {
+  66   5                   //call a function to write character 2 to the lcd display
+  67   5                   lcd_write_char('2');
+  68   5                   continue;
+  69   5                 }
+  70   4                 else if (col_3==0)  //check whether col_3 is zero or not
+  71   4                 {
+  72   5                   //call a function to write character 3 to the lcd display
+  73   5                   lcd_write_char('3');
+  74   5                   continue;
+  75   5                 }
+  76   4                 else if (col_4==0)  //check whether col_4 is zero or not
+  77   4                 {
+  78   5                   //call a function to write character A to the lcd display
+  79   5                   lcd_write_char('A');
+  80   5                   continue;
+  81   5                 }
+  82   4                 
+  83   4                 P3 =  (0xE0 << 1)| 0x1F; //fill in an hex number such that row 2 becomes zero and rest of the rows a
+             -re still high
+  84   4                 
+  85   4                 if (col_1 == 0)
+  86   4                 {
+  87   5                   //call a function to write character 4 to the lcd display
+  88   5                  lcd_write_char('4');
+  89   5                   continue;
+  90   5                 }
+  91   4                 else if (col_2==0)  //check whether col_2 is zero or not
+  92   4                 {
+  93   5                   //call a function to write character 5 to the lcd display
+  94   5                   lcd_write_char('5');
+  95   5                   continue;
+  96   5                 }
+  97   4                 else if (col_3==0)  //check whether col_3 is zero or not
+  98   4                 {
+  99   5                   //call a function to write character 6 to the lcd display
+ 100   5                   lcd_write_char('6');
+ 101   5                   continue;
+ 102   5                 }
+ 103   4                 else if ( col_4 == 0)
+ 104   4                 {
+ 105   5                   //call a function to write character B to the lcd display
+ 106   5                   lcd_write_char('B');
+ 107   5                   continue;
+ 108   5                 }
+ 109   4                 
+ 110   4                 P3 =  0xB0| 0x0F; //fill in an hex number such that row 3 becomes zero and rest of the rows are stil
+             -l high
+ 111   4      
+ 112   4                 if (col_1==0)  //check whether col_1 is zero or not
+C51 COMPILER V9.60.7.0   KEYPAD                                                            06/25/2026 10:53:30 PAGE 3   
+
+ 113   4                 {
+ 114   5                   //call a function to write character 7 to the lcd display
+ 115   5                   lcd_write_char('7');
+ 116   5                   continue;
+ 117   5                 }
+ 118   4                 else if (col_2 == 0)
+ 119   4                 {
+ 120   5                   //call a function to write character 8 to the lcd display
+ 121   5                   lcd_write_char('8');
+ 122   5                   continue;
+ 123   5                 }
+ 124   4                 else if (col_3 == 0)
+ 125   4                 {
+ 126   5                   //call a function to write character 9 to the lcd display
+ 127   5                   lcd_write_char('9');
+ 128   5                   continue;
+ 129   5                 }
+ 130   4                 else if (col_4==0)  //check whether col_4 is zero or not
+ 131   4                 {
+ 132   5                   //call a function to write character C to the lcd display
+ 133   5                   lcd_write_char('C');
+ 134   5                   continue;
+ 135   5                 }
+ 136   4                
+ 137   4                 P3 =  0x70| 0x0F; //fill in an hex number such that row 4 becomes zero and rest of the rows are stil
+             -l high
+ 138   4                 
+ 139   4                 if (col_1 == 0)
+ 140   4                 {
+ 141   5                   //call a function to write character 0 to the lcd display
+ 142   5                   lcd_write_char('0');
+ 143   5                   continue;
+ 144   5                 }
+ 145   4                 else if (col_2 == 0)
+ 146   4                 {
+ 147   5                   //call a function to write character + to the lcd display
+ 148   5                   lcd_write_char('+');
+ 149   5                   continue;
+ 150   5                 }
+ 151   4                 else if (col_3 == 0)
+ 152   4                 {
+ 153   5                   //call a function to write character - to the lcd display
+ 154   5                   lcd_write_char('-');
+ 155   5                   continue;
+ 156   5                 }
+ 157   4                 else if ( col_4 == 0)
+ 158   4                 {
+ 159   5                   //call a function to write character D to the lcd display
+ 160   5                   lcd_write_char('D');
+ 161   5                   continue;
+ 162   5                 }
+ 163   4                
+ 164   4                
+ 165   4              }
+ 166   3              else
+ 167   3              {
+ 168   4                P3 = 0x0F;
+ 169   4              }
+ 170   3            }
+ 171   2            else P3 = 0x0F;
+ 172   2        }
+ 173   1        return;
+C51 COMPILER V9.60.7.0   KEYPAD                                                            06/25/2026 10:53:30 PAGE 4   
+
+ 174   1      }
+ 175          
+ 176          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    348    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

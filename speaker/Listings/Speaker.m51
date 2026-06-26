@@ -1,0 +1,296 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    06/25/2026  15:03:20  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\speaker.obj TO .\Objects\Speaker PRINT (.\Listings\Speaker.
+>> m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\speaker.obj (SPEAKER)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CLDPTR)
+
+
+LINK MAP OF MODULE:  .\Objects\Speaker (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0032H     UNIT         ?DT?SPEAKER
+            DATA    003AH     0003H     UNIT         _DATA_GROUP_
+            IDATA   003DH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+                    000EH     07F2H                  *** GAP ***
+            CODE    0800H     008CH     UNIT         ?C_C51STARTUP
+            CODE    088CH     006EH     UNIT         ?PR?MAIN?SPEAKER
+            CODE    08FAH     0037H     UNIT         ?PR?LCD_INIT?SPEAKER
+            CODE    0931H     0035H     UNIT         ?C_INITSEG
+            CODE    0966H     0025H     UNIT         ?PR?_LCD_WRITE_STRING?SPEAKER
+            CODE    098BH     0024H     UNIT         ?PR?_MSDELAY?SPEAKER
+            CODE    09AFH     0023H     UNIT         ?PR?_DELAY?SPEAKER
+            CODE    09D2H     0022H     UNIT         ?CO?SPEAKER
+            CODE    09F4H     0019H     UNIT         ?C?LIB_CODE
+            CODE    0A0DH     0012H     UNIT         ?PR?_LCD_CMD?SPEAKER
+            CODE    0A1FH     0012H     UNIT         ?PR?_LCD_WRITE_CHAR?SPEAKER
+            CODE    0A31H     000FH     UNIT         ?PR?MUSIC?SPEAKER
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Speaker (?C_STARTUP)
+
+
+SEGMENT                                 DATA_GROUP 
+  +--> CALLED SEGMENT                 START    LENGTH
+-----------------------------------------------------
+?C_C51STARTUP                         -----    -----
+  +--> ?PR?MAIN?SPEAKER
+  +--> ?C_INITSEG
+
+?PR?MAIN?SPEAKER                      -----    -----
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/25/2026  15:03:20  PAGE 2
+
+
+  +--> ?PR?LCD_INIT?SPEAKER
+  +--> ?PR?_LCD_CMD?SPEAKER
+  +--> ?CO?SPEAKER
+  +--> ?PR?_LCD_WRITE_STRING?SPEAKER
+  +--> ?PR?_DELAY?SPEAKER
+
+?PR?LCD_INIT?SPEAKER                  -----    -----
+  +--> ?PR?_LCD_CMD?SPEAKER
+  +--> ?PR?_MSDELAY?SPEAKER
+
+?PR?_LCD_CMD?SPEAKER                  -----    -----
+  +--> ?PR?_MSDELAY?SPEAKER
+
+?PR?_LCD_WRITE_STRING?SPEAKER         003AH    0003H
+  +--> ?PR?_LCD_WRITE_CHAR?SPEAKER
+
+?PR?_LCD_WRITE_CHAR?SPEAKER           -----    -----
+  +--> ?PR?_MSDELAY?SPEAKER
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Speaker (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0800H         SEGMENT       ?C_C51STARTUP
+  I:003DH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0803H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0800H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0800H         LINE#         133
+  C:0802H         LINE#         134
+  C:0803H         LINE#         135
+  C:0804H         LINE#         136
+  C:0806H         LINE#         185
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/25/2026  15:03:20  PAGE 3
+
+
+  C:0809H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        SPEAKER
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  B:00A8H.7       PUBLIC        EA
+  C:09AFH         PUBLIC        _delay
+  B:0080H.2       PUBLIC        EN
+  D:0008H         PUBLIC        current_note
+  C:0A31H         PUBLIC        music
+  B:0080H.0       PUBLIC        RS
+  C:088CH         PUBLIC        main
+  B:0080H.1       PUBLIC        RW
+  D:000AH         PUBLIC        notes
+  D:0022H         PUBLIC        time
+  D:0089H         PUBLIC        TMOD
+  C:0966H         PUBLIC        _lcd_write_string
+  C:0A1FH         PUBLIC        _lcd_write_char
+  B:00A8H.1       PUBLIC        ET0
+  C:0A0DH         PUBLIC        _lcd_cmd
+  B:0088H.5       PUBLIC        TF0
+  C:08FAH         PUBLIC        lcd_init
+  B:0088H.7       PUBLIC        TF1
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  B:0088H.4       PUBLIC        TR0
+  B:0088H.6       PUBLIC        TR1
+  B:0080H.7       PUBLIC        out
+  C:098FH         PUBLIC        _msdelay
+  -------         PROC          LCD_INIT
+  C:08FAH         LINE#         23
+  C:08FAH         LINE#         24
+  C:08FAH         LINE#         25
+  C:08FDH         LINE#         26
+  C:08FFH         LINE#         27
+  C:0901H         LINE#         28
+  C:0903H         LINE#         30
+  C:0909H         LINE#         31
+  C:090CH         LINE#         32
+  C:0913H         LINE#         33
+  C:0916H         LINE#         34
+  C:091DH         LINE#         35
+  C:0920H         LINE#         36
+  C:0927H         LINE#         37
+  C:092AH         LINE#         38
+  -------         ENDPROC       LCD_INIT
+  C:098BH         SYMBOL        L?0033
+  -------         PROC          L?0032
+  -------         ENDPROC       L?0032
+  C:098BH         SYMBOL        L?0033
+  -------         PROC          _MSDELAY
+  D:0006H         SYMBOL        time
+  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/25/2026  15:03:20  PAGE 4
+
+
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:098FH         LINE#         45
+  C:098FH         LINE#         46
+  C:098FH         LINE#         48
+  C:0999H         LINE#         49
+  C:0999H         LINE#         50
+  C:09A7H         LINE#         51
+  C:09AEH         LINE#         52
+  -------         ENDPROC       _MSDELAY
+  -------         PROC          _LCD_CMD
+  D:0006H         SYMBOL        i
+  C:0A0DH         LINE#         59
+  C:0A0DH         LINE#         60
+  C:0A0DH         LINE#         61
+  C:0A0FH         LINE#         62
+  C:0A11H         LINE#         63
+  C:0A13H         LINE#         64
+  C:0A15H         LINE#         65
+  C:0A1CH         LINE#         66
+  C:0A1EH         LINE#         67
+  -------         ENDPROC       _LCD_CMD
+  -------         PROC          _LCD_WRITE_CHAR
+  D:0007H         SYMBOL        ch
+  C:0A1FH         LINE#         74
+  C:0A1FH         LINE#         75
+  C:0A1FH         LINE#         76
+  C:0A21H         LINE#         77
+  C:0A23H         LINE#         78
+  C:0A25H         LINE#         79
+  C:0A27H         LINE#         80
+  C:0A2EH         LINE#         81
+  C:0A30H         LINE#         82
+  -------         ENDPROC       _LCD_WRITE_CHAR
+  -------         PROC          _LCD_WRITE_STRING
+  D:003AH         SYMBOL        s
+  C:0966H         LINE#         89
+  C:096CH         LINE#         90
+  C:096CH         LINE#         91
+  C:0977H         LINE#         92
+  C:0977H         LINE#         93
+  C:0988H         LINE#         94
+  C:098AH         LINE#         95
+  -------         ENDPROC       _LCD_WRITE_STRING
+  -------         PROC          MUSIC
+  C:0A31H         LINE#         40
+  C:0A33H         LINE#         42
+  C:0A37H         LINE#         43
+  C:0A3BH         LINE#         45
+  C:0A3DH         LINE#         47
+  -------         ENDPROC       MUSIC
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        t
+  -------         DO            
+  D:0004H         SYMBOL        i
+  -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  06/25/2026  15:03:20  PAGE 5
+
+
+  C:09AFH         LINE#         49
+  C:09AFH         LINE#         53
+  C:09B9H         LINE#         54
+  C:09BCH         LINE#         55
+  C:09BFH         LINE#         57
+  C:09C1H         LINE#         58
+  C:09C3H         LINE#         60
+  C:09C6H         LINE#         62
+  C:09C8H         LINE#         63
+  C:09CAH         LINE#         64
+  C:09D1H         LINE#         65
+  -------         ENDPROC       _DELAY
+  -------         PROC          MAIN
+  -------         DO            
+  D:0002H         SYMBOL        i
+  -------         ENDDO         
+  C:088CH         LINE#         68
+  C:088CH         LINE#         69
+  C:088CH         LINE#         71
+  C:088FH         LINE#         72
+  C:0891H         LINE#         73
+  C:0893H         LINE#         77
+  C:0893H         LINE#         78
+  C:0896H         LINE#         80
+  C:089DH         LINE#         81
+  C:08A6H         LINE#         82
+  C:08ADH         LINE#         83
+  C:08B6H         LINE#         85
+  C:08B9H         LINE#         87
+  C:08C6H         LINE#         89
+  C:08CAH         LINE#         90
+  C:08CEH         LINE#         93
+  C:08D0H         LINE#         94
+  C:08D2H         LINE#         96
+  C:08E0H         LINE#         99
+  C:08E2H         LINE#         100
+  C:08E4H         LINE#         101
+  C:08E6H         LINE#         104
+  C:08EDH         LINE#         107
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        SPEAKER
+
+  -------         MODULE        ?C?CLDPTR
+  C:09F4H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 01ACH BYTE (20%) *
+******************************************************************************
+
+Program Size: data=62.0 xdata=0 code=582
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

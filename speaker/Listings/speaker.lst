@@ -1,0 +1,138 @@
+C51 COMPILER V9.60.7.0   SPEAKER                                                           06/25/2026 15:02:59 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE SPEAKER
+OBJECT MODULE PLACED IN .\Objects\speaker.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE speaker.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\s
+                    -peaker.lst) TABS(2) OBJECT(.\Objects\speaker.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          #include <lcd.h>
+   3          
+   4          
+   5          //OUTPUT PIN
+   6          sbit out = P0^7;
+   7          
+   8          unsigned int notes[12]={
+   9          0xEFB9, 
+  10          0xEFB9, 
+  11          0xF188, 
+  12          0xEFB9, 
+  13          0xF3CA, 
+  14          0xF2FA, 
+  15          0xEFB9, 
+  16          0xEFB9, 
+  17          0xF188, 
+  18          0xEFB9, 
+  19          0xF526, 
+  20          0xF3CA  
+  21          };
+  22            
+  23          unsigned int time[12]={
+  24          500,
+  25          500,
+  26          1000,
+  27          1000,
+  28          1000,
+  29          2000,
+  30            500,
+  31          500,
+  32          1000,
+  33          1000,
+  34          1000,
+  35          2000
+  36          };
+  37          
+  38          unsigned int current_note;
+  39          
+  40          void music (void) interrupt 1{
+  41   1        
+  42   1        TH0=current_note>>8;
+  43   1        TL0=current_note &0xFF;
+  44   1         
+  45   1        out = !out;
+  46   1        //TF0=0; this happens automatically in interrupts
+  47   1      }
+  48          
+  49          void delay (unsigned int t){
+  50   1        
+  51   1      unsigned int i;
+  52   1      
+  53   1      for(i=0; i<t; i++){
+  54   2      TH1=0xFC;
+C51 COMPILER V9.60.7.0   SPEAKER                                                           06/25/2026 15:02:59 PAGE 2   
+
+  55   2        TL1=0x18;
+  56   2        
+  57   2        TF1=0;
+  58   2        TR1=1;
+  59   2        
+  60   2        while(TF1==0);
+  61   2        
+  62   2        TR1=0;
+  63   2        TF1=0;
+  64   2      } 
+  65   1      }
+  66          
+  67          
+  68          void main()
+  69          {
+  70   1        unsigned int i;
+  71   1          TMOD = 0x11;
+  72   1          EA=1;
+  73   1        ET0=1;
+  74   1        
+  75   1          
+  76   1        
+  77   1        while(1){
+  78   2          lcd_init();
+  79   2      
+  80   2      lcd_cmd(0x80);
+  81   2      lcd_write_string(" Happy Birthday ");
+  82   2      lcd_cmd(0xC0);
+  83   2      lcd_write_string(" Anirudh ^-^ !! ");
+  84   2          
+  85   2          for(i=0; i<12; i++){
+  86   3            
+  87   3            current_note = notes[i];
+  88   3            
+  89   3            TH0=current_note>>8;
+  90   3            TL0= current_note&0xFF;
+  91   3            
+  92   3            //start the note
+  93   3            TF0=0;
+  94   3            TR0=1;
+  95   3            
+  96   3            delay(time[i]);
+  97   3            
+  98   3            //stop the note
+  99   3            TR0=0;
+ 100   3            TF0=0;
+ 101   3            out=0;
+ 102   3            
+ 103   3            //add a tiny delay
+ 104   3            delay(50);
+ 105   3          
+ 106   3            
+ 107   3          }
+ 108   2        }
+ 109   1          
+ 110   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    324    ----
+   CONSTANT SIZE    =     34    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.60.7.0   SPEAKER                                                           06/25/2026 15:02:59 PAGE 3   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     50       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

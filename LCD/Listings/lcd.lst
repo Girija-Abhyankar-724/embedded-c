@@ -1,0 +1,94 @@
+C51 COMPILER V9.60.7.0   LCD                                                               06/24/2026 10:53:24 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE LCD
+OBJECT MODULE PLACED IN .\Objects\lcd.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE lcd.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\lcd.l
+                    -st) TABS(2) OBJECT(.\Objects\lcd.obj)
+
+line level    source
+
+   1          #include <reg51.h>
+   2          sbit RS=P0^0; // Register select
+   3          sbit RW=P0^1; // Read from or write to register
+   4          sbit EN=P0^2; // Enable pin of lcd
+   5          
+   6          void msdelay(unsigned int time)
+   7          {
+   8   1        int i,j;
+   9   1        for(i = 0; i < time; i++)
+  10   1        {
+  11   2          for(j = 0; j < 382; j++);
+  12   2        }
+  13   1      }
+  14          
+  15          void lcd_cmd(unsigned int i)
+  16          {
+  17   1        RS=0; // 0 is command 1 is dataa
+  18   1        RW=0; //0 is read 1 is write
+  19   1        EN=1;
+  20   1        P2=i;
+  21   1        msdelay(10);
+  22   1        EN=0;
+  23   1      }
+  24          
+  25          void lcd_init(void)
+  26          {
+  27   1        P2=0x00;
+  28   1        EN=0;
+  29   1        RS=0;
+  30   1        RW=0;
+  31   1        
+  32   1        lcd_cmd(0x38);  // Function set: 2 Line, 8-bbit, 5x7 dots
+  33   1        msdelay(4);
+  34   1        lcd_cmd(0x06);  // Entry mode, aauto increment with no shift
+  35   1        msdelay(4);
+  36   1        lcd_cmd(0x0C);  // Display on, Curson off
+  37   1        msdelay(4);
+  38   1        lcd_cmd(0x01);  // LCD clear
+  39   1        msdelay(4);
+  40   1        lcd_cmd(0x80);  // Move cursor to Row 1 column 0
+  41   1      }
+  42          
+  43          void lcd_write_char(unsigned char ch)
+  44          {
+  45   1        RS=1;
+  46   1        RW=0;
+  47   1        EN=1;
+  48   1        P2=ch;
+  49   1        msdelay(10);
+  50   1        EN=0;
+  51   1      }
+  52          
+  53          void lcd_write_string(unsigned char *s)
+  54          {
+C51 COMPILER V9.60.7.0   LCD                                                               06/24/2026 10:53:24 PAGE 2   
+
+  55   1        while(*s!='\0')
+  56   1        {
+  57   2          lcd_write_char(*s++);
+  58   2        }
+  59   1      }
+  60          
+  61          void main(){
+  62   1      lcd_init(); //initialise
+  63   1      lcd_cmd(0x80);
+  64   1      lcd_write_string("      ^_^       ");
+  65   1      lcd_cmd(0xC0);
+  66   1      lcd_write_string("                ");
+  67   1      msdelay(5000);
+  68   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    189    ----
+   CONSTANT SIZE    =     34    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

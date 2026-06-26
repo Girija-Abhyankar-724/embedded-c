@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\speaker.obj" 
+TO ".\Objects\Speaker" 
+PRINT(".\Listings\Speaker.m51") RAMSIZE(256) 

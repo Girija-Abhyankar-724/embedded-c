@@ -1,0 +1,292 @@
+C51 COMPILER V9.60.7.0   PIANO                                                             06/25/2026 16:28:29 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PIANO
+OBJECT MODULE PLACED IN .\Objects\piano.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE piano.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\pia
+                    -no.lst) TABS(2) OBJECT(.\Objects\piano.obj)
+
+line level    source
+
+   1          
+   2          #include <at89c5131.h>
+   3          #include <stdio.h>
+   4          #include <lcd.h>
+   5          
+   6          unsigned int current_note;
+   7          
+   8          sbit SOUND = P0^7;
+   9          
+  10          //P3 Lower nibbles are connected to columns of the keyboard
+  11          sbit col_1 = P3^0;
+  12          sbit col_2 = P3^1;
+  13          sbit col_3 = P3^2;
+  14          sbit col_4 = P3^3;
+  15          
+  16          //P3 Higher nibbles are connected to rows of the keyboard
+  17          sbit row_1 = P3^4;
+  18          sbit row_2 = P3^5;
+  19          sbit row_3 = P3^6;
+  20          sbit row_4 = P3^7;
+  21          
+  22          char col_1_state, col_2_state, col_3_state, col_4_state;
+  23          unsigned char iterator;
+  24          
+  25          //void msdelay(unsigned int time); //use this function for delay in milliseconds
+  26          //void lcd_init(); //use it to initialize lcd
+  27          //void write_data(unsigned char _data); //writing character or data to lcd the data will get displayed on 
+             -the lcd
+  28          //void write_command(unsigned char comm);//sending commands to lcd
+  29          
+  30          void music(void) interrupt 1
+  31          {
+  32   1          TH0 = current_note >> 8;
+  33   1          TL0 = current_note & 0xFF;
+  34   1      
+  35   1          SOUND = !SOUND;
+  36   1      
+  37   1          //TF0=0; this happens automatically in interrupts
+  38   1      }
+  39          
+  40          
+  41          
+  42          void play_note(unsigned int note)
+  43          {
+  44   1          current_note = note;
+  45   1      
+  46   1          TH0 = current_note >> 8;
+  47   1          TL0 = current_note & 0xFF;
+  48   1      
+  49   1          TF0 = 0;
+  50   1          TR0 = 1;
+  51   1      }
+  52          
+  53          void stop_note(void)
+C51 COMPILER V9.60.7.0   PIANO                                                             06/25/2026 16:28:29 PAGE 2   
+
+  54          {
+  55   1          TR0 = 0;
+  56   1          TF0 = 0;
+  57   1          SOUND = 0;
+  58   1      }
+  59          
+  60          void main()
+  61          {
+  62   1          RS = RW = EN = 0;
+  63   1      
+  64   1          /****************************************/
+  65   1          //set all columns high
+  66   1          col_1_state = 1;
+  67   1          col_2_state = 1;
+  68   1          col_3_state = 1;
+  69   1          col_4_state = 1;
+  70   1          /****************************************/
+  71   1      
+  72   1          /****************************************/
+  73   1          //implement the function to initialize lcd here
+  74   1          lcd_init();
+  75   1          /****************************************/
+  76   1      
+  77   1          TMOD = 0x11;      // T0 Mode1, T1 Mode1
+  78   1          EA   = 1;         // Global Interrupt Enable
+  79   1          ET0  = 1;         // Enable Timer0 Interrupt
+  80   1          //TR0=1;
+  81   1          P3 = 0x0F;
+  82   1        SOUND=0;
+  83   1          while(1)
+  84   1          {
+  85   2            
+  86   2              if(P3 < 0x0F) //checking whether some key is pressed or not
+  87   2              {
+  88   3                  //Add an delay of 200 ms for debouncing the keys
+  89   3                  msdelay(200);
+  90   3      
+  91   3                  if(P3 < 0x0F) //checking whether still some key is pressed or not after debounce
+  92   3                  {
+  93   4                      P3 = 0xEF; //row 1 low
+  94   4      
+  95   4                      if(col_1 == 0)
+  96   4                      {
+  97   5                          lcd_cmd(0x01);
+  98   5                          lcd_write_string("1 : Sa(low)");
+  99   5      
+ 100   5                          play_note(0xEFB9);
+ 101   5      
+ 102   5                          while(col_1 == 0);
+ 103   5      
+ 104   5                          stop_note();
+ 105   5                          continue;
+ 106   5                      }
+ 107   4                      else if(col_2 == 0)
+ 108   4                      {
+ 109   5                          lcd_cmd(0x01);
+ 110   5                          lcd_write_string("2 : Re");
+ 111   5      
+ 112   5                          play_note(0xF188);
+ 113   5      
+ 114   5                          while(col_2 == 0);
+ 115   5      
+C51 COMPILER V9.60.7.0   PIANO                                                             06/25/2026 16:28:29 PAGE 3   
+
+ 116   5                          stop_note();
+ 117   5                          continue;
+ 118   5                      }
+ 119   4                      else if(col_3 == 0)
+ 120   4                      {
+ 121   5                          lcd_cmd(0x01);
+ 122   5                          lcd_write_string("3 : Ga");
+ 123   5      
+ 124   5                          play_note(0xF2FA);
+ 125   5      
+ 126   5                          while(col_3 == 0);
+ 127   5      
+ 128   5                          stop_note();
+ 129   5                          continue;
+ 130   5                      }
+ 131   4                      else if(col_4 == 0)
+ 132   4                      {
+ 133   5                          lcd_cmd(0x01);
+ 134   5                          lcd_write_string("A");
+ 135   5                          continue;
+ 136   5                      }
+ 137   4      
+ 138   4                      P3 = 0xDF; //row 2 low
+ 139   4      
+ 140   4                      if(col_1 == 0)
+ 141   4                      {
+ 142   5                          lcd_cmd(0x01);
+ 143   5                          lcd_write_string("4 : Ma");
+ 144   5      
+ 145   5                          play_note(0xF3CB);
+ 146   5      
+ 147   5                          while(col_1 == 0);
+ 148   5      
+ 149   5                          stop_note();
+ 150   5                          continue;
+ 151   5                      }
+ 152   4                      else if(col_2 == 0)
+ 153   4                      {
+ 154   5                          lcd_cmd(0x01);
+ 155   5                          lcd_write_string("5 : Pa");
+ 156   5      
+ 157   5                          play_note(0xF526);
+ 158   5      
+ 159   5                          while(col_2 == 0);
+ 160   5      
+ 161   5                          stop_note();
+ 162   5                          continue;
+ 163   5                      }
+ 164   4                      else if(col_3 == 0)
+ 165   4                      {
+ 166   5                          lcd_cmd(0x01);
+ 167   5                          lcd_write_string("6 : Dha");
+ 168   5      
+ 169   5                          play_note(0xF63C);
+ 170   5      
+ 171   5                          while(col_3 == 0);
+ 172   5      
+ 173   5                          stop_note();
+ 174   5                          continue;
+ 175   5                      }
+ 176   4                      else if(col_4 == 0)
+ 177   4                      {
+C51 COMPILER V9.60.7.0   PIANO                                                             06/25/2026 16:28:29 PAGE 4   
+
+ 178   5                          lcd_cmd(0x01);
+ 179   5                          lcd_write_string("B");
+ 180   5                          continue;
+ 181   5                      }
+ 182   4      
+ 183   4                      P3 = 0xBF; //row 3 low
+ 184   4      
+ 185   4                      if(col_1 == 0)
+ 186   4                      {
+ 187   5                          lcd_cmd(0x01);
+ 188   5                          lcd_write_string("7 : Ni");
+ 189   5      
+ 190   5                          play_note(0xF752);
+ 191   5      
+ 192   5                          while(col_1 == 0);
+ 193   5      
+ 194   5                          stop_note();
+ 195   5                          continue;
+ 196   5                      }
+ 197   4                      else if(col_2 == 0)
+ 198   4                      {
+ 199   5                          lcd_cmd(0x01);
+ 200   5                          lcd_write_string("8 : Sa(high)");
+ 201   5      
+ 202   5                          play_note(0xF7DD);
+ 203   5      
+ 204   5                          while(col_2 == 0);
+ 205   5      
+ 206   5                          stop_note();
+ 207   5                          continue;
+ 208   5                      }
+ 209   4                      else if(col_3 == 0)
+ 210   4                      {
+ 211   5                          lcd_cmd(0x01);
+ 212   5                          lcd_write_string("9");
+ 213   5                          continue;
+ 214   5                      }
+ 215   4                      else if(col_4 == 0)
+ 216   4                      {
+ 217   5                          lcd_cmd(0x01);
+ 218   5                          lcd_write_string("C");
+ 219   5                          continue;
+ 220   5                      }
+ 221   4      
+ 222   4                      P3 = 0x7F; //row 4 low
+ 223   4      
+ 224   4                      if(col_1 == 0)
+ 225   4                      {
+ 226   5                          lcd_cmd(0x01);
+ 227   5                          lcd_write_string("0");
+ 228   5                          continue;
+ 229   5                      }
+ 230   4                      else if(col_2 == 0)
+ 231   4                      {
+ 232   5                          lcd_cmd(0x01);
+ 233   5                          lcd_write_string("+");
+ 234   5                          continue;
+ 235   5                      }
+ 236   4                      else if(col_3 == 0)
+ 237   4                      {
+ 238   5                          lcd_cmd(0x01);
+ 239   5                          lcd_write_string("-");
+C51 COMPILER V9.60.7.0   PIANO                                                             06/25/2026 16:28:29 PAGE 5   
+
+ 240   5                          continue;
+ 241   5                      }
+ 242   4                      else if(col_4 == 0)
+ 243   4                      {
+ 244   5                          lcd_cmd(0x01);
+ 245   5                          lcd_write_string("D");
+ 246   5                          continue;
+ 247   5                      }
+ 248   4                  }
+ 249   3                  else
+ 250   3                  {
+ 251   4                      P3 = 0x0F;
+ 252   4                  }
+ 253   3              }
+ 254   2              else
+ 255   2              {
+ 256   3                  P3 = 0x0F;
+ 257   3              }
+ 258   2          }
+ 259   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    628    ----
+   CONSTANT SIZE    =     84    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
